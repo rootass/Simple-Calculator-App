@@ -17,22 +17,13 @@ public class MainActivity extends AppCompatActivity {
     Button btn9, btn10, btn11, btn12;
     Button btn13, btn14, btn15, btn16;
     TextView mTextView;
-    List<String> mDisplayList;
-    String lastElement;
-    List<Integer> operands;
-    List<String> operators;
-    boolean isLastInputANumber = false;
-    String temp;
-
+    String num="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeButtons();
-        operands = new ArrayList<>();
-        operators = new ArrayList<>();
-        mTextView = findViewById(R.id.display);
-        mDisplayList = new ArrayList<>();
+        mTextView = (TextView) findViewById(R.id.display);
     }
 
     public void initializeButtons(){
@@ -55,89 +46,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void perform(View v){
-        mTextView.setText("");
         switch (v.getTag().toString()){
-            case "0": lastElement = "0";
-            combineNumbers("0");
-            break;
-            case "1": lastElement="1";combineNumbers("1");break;
-            case "2": lastElement="2";combineNumbers("2");break;
-            case "3": lastElement="3";combineNumbers("3");break;
-            case "4": lastElement="4";combineNumbers("4");break;
-            case "5": lastElement="5";combineNumbers("5");break;
-            case "6": lastElement="6";combineNumbers("6");break;
-            case "7": lastElement="7";combineNumbers("7");break;
-            case "8": lastElement="8";combineNumbers("8");break;
-            case "9": lastElement="9";combineNumbers("9");break;
-//            case ".": lastElement=".";combineNumbers(".");break;
-            case "+": operands.add(Integer.valueOf(temp));isLastInputANumber=false;printLogs();mDisplayList.add("+");lastElement="+";operators.add("+");break;
-            case "-": operands.add(Integer.valueOf(temp));isLastInputANumber=false;printLogs();mDisplayList.add("-");lastElement="-";operators.add("-");break;
-            case "x": operands.add(Integer.valueOf(temp));isLastInputANumber=false;printLogs();mDisplayList.add("x");lastElement="x";operators.add("x");break;
-            case "÷": operands.add(Integer.valueOf(temp));isLastInputANumber=false;printLogs();mDisplayList.add("÷");lastElement="÷";operators.add("÷");break;
-            case "=": calculate();break;
-            case "d" : removeLastElement();break;
-            case "c" : mDisplayList.clear();operands.clear();operators.clear();temp="";lastElement="";break;
-        }
-        for(String s: mDisplayList){
-            mTextView.append(s);
+            case "0": num+="0";mTextView.setText(num);break;
+            case "1": num+="1";mTextView.setText(num);break;
+            case "2": num+="2";mTextView.setText(num);break;
+            case "3": num+="3";mTextView.setText(num);break;
+            case "4": num+="4";mTextView.setText(num);break;
+            case "5": num+="5";mTextView.setText(num);break;
+            case "6": num+="6";mTextView.setText(num);break;
+            case "7": num+="7";mTextView.setText(num);break;
+            case "8": num+="8";mTextView.setText(num);break;
+            case "9": num+="9";mTextView.setText(num);break;
         }
     }
 
-    public void removeLastElement(){
-        mDisplayList.remove(lastElement);
-        if(operators.contains(lastElement)){
-            System.out.println("was operator");
-            operators.remove(lastElement);
-        } else{
-            System.out.println("was operand");
-            operands.remove(Integer.valueOf(lastElement));
+    public void callOperators(View v){
+        switch (v.getTag().toString()){
+            case "+": num+="+";mTextView.setText(num);break;
+            case "-": num+="-";mTextView.setText(num);break;
+            case "*": num+="*";mTextView.setText(num);break;
+            case "÷": num+="÷";mTextView.setText(num);break;
         }
-        printLogs();
     }
 
-    public void calculate(){
-        operands.add(Integer.valueOf(temp));
-        if(operators.size()<operands.size()){
-            float a = operands.get(0);
-            float b = operands.get(1);
-            float c=0;
-            switch (operators.get(0)){
-                case "+": c=a+b;break;
-                case "-": c=a-b;break;
-                case "x": c=a*b;break;
-                case "÷": c=a/b;break;
+    public void clear(View v){
+        num="";
+        mTextView.setText("");
+    }
+
+    public void callEquals(View v){
+        String op1 = "";
+        String op2 = "";
+        String operator = "";
+        float result=0;
+        for(int i=0; i<num.length(); i++){
+            char c = num.charAt(i);
+            if(c=='+'||c=='-'||c=='*'||c=='÷'){
+                op1 = num.substring(0,i);
+                op2 = num.substring(i+1,num.length());
+                System.out.println("Op1 = "+op1);
+                System.out.println("Op2 = "+op2);
             }
-            lastElement = String.valueOf(c);
-            temp = lastElement;
-            mDisplayList.clear();
-            operands.clear();
-            operators.clear();
-            mDisplayList.add(String.valueOf(c));
-            printLogs();
-        } else {
-            Toast.makeText(this,"Invalid Operation",Toast.LENGTH_SHORT).show();
+            switch (c){
+                case '+':result=Float.valueOf(op1)+Float.valueOf(op2);break;
+                case '-':result=Float.valueOf(op1)-Float.valueOf(op2);break;
+                case '*':result=Float.valueOf(op1)*Float.valueOf(op2);break;
+                case '÷':result=Float.valueOf(op1)/Float.valueOf(op2);break;
+            }
+            mTextView.setText(String.valueOf(result));
         }
-    }
-
-    private void printLogs(){
-        System.out.println("\n\nOn type, Calculator's Display = "+mDisplayList);
-        System.out.println("On type, Temp = "+temp);
-        System.out.println("On type, Last Element = "+lastElement);
-        System.out.println("On type, Operands = "+operands);
-        System.out.println("On type, operators = "+operators+"\n\n");
-    }
-
-    private void combineNumbers(String s){
-
-        mDisplayList.add(s);
-        if(isLastInputANumber){
-            temp = temp+s;
-//            operands.add(Integer.valueOf(result));
-        } else {
-            temp = s;
-        }
-        isLastInputANumber = true;
-        printLogs();
     }
 
 }

@@ -33,7 +33,7 @@
             android:text="CLEAR"
             android:textColor="#fff"
             android:background="#333"
-            android:onClick="perform" android:tag="c"
+            android:onClick="clear"
             android:id="@+id/clear"/>
 
         <!--<Button-->
@@ -222,7 +222,7 @@
             android:textSize="20dp"
             android:textColor="#fff"
             android:layout_margin="2dp"
-            android:onClick="perform" android:tag="="
+            android:onClick="callEquals" android:tag="="
             android:text="="/>
         <Button
             android:layout_width="wrap_content"
@@ -237,7 +237,7 @@
             android:background="#ac3"
             android:textSize="20dp"
             android:textColor="#fff"
-            android:onClick="perform" android:tag="+"
+            android:onClick="callOperators" android:tag="+"
             android:text="➕"/>
         <Button
             android:layout_width="wrap_content"
@@ -252,7 +252,7 @@
             android:background="#ac3"
             android:textSize="20dp"
             android:textColor="#fff"
-            android:onClick="perform" android:tag="-"
+            android:onClick="callOperators" android:tag="-"
             android:text="➖"/>
         <Button
             android:layout_width="wrap_content"
@@ -267,7 +267,7 @@
             android:background="#ac3"
             android:textSize="20dp"
             android:textColor="#fff"
-            android:onClick="perform" android:tag="x"
+            android:onClick="callOperators" android:tag="*"
             android:text="✖"/>
         <Button
             android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
             android:background="#ac3"
             android:textSize="20dp"
             android:textColor="#fff"
-            android:onClick="perform" android:tag="÷"
+            android:onClick="callOperators" android:tag="÷"
             android:text="➗"/>
 
     </GridLayout>
