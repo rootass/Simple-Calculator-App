@@ -2,6 +2,7 @@ package com.wildlabs.calculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#333\">Calculator Jee</font>"));
         initializeButtons();
         mTextView = (TextView) findViewById(R.id.display);
     }
@@ -64,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void callOperators(View v){
         switch (v.getTag().toString()){
-            case "+": if(operatorClicked){againClicked();}num+="+";operatorClicked=true;mTextView.setText(num);break;
-            case "-": if(operatorClicked){againClicked();}num+="-";operatorClicked=true;mTextView.setText(num);break;
-            case "*": if(operatorClicked){againClicked();}num+="*";operatorClicked=true;mTextView.setText(num);break;
-            case "÷": if(operatorClicked){againClicked();}num+="÷";operatorClicked=true;mTextView.setText(num);break;
+            case "+": if(operatorClicked){callEquals(btn1);}num+="+";operatorClicked=true;mTextView.setText(num);break;
+            case "-": if(operatorClicked){callEquals(btn1);}num+="-";operatorClicked=true;mTextView.setText(num);break;
+            case "*": if(operatorClicked){callEquals(btn1);}num+="*";operatorClicked=true;mTextView.setText(num);break;
+            case "÷": if(operatorClicked){callEquals(btn1);}num+="÷";operatorClicked=true;mTextView.setText(num);break;
         }
     }
 
@@ -77,30 +79,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void callEquals(View v){
-        String op1 = "";
-        String op2 = "";
-        String operator = "";
-
         float result=0;
         for(int i=0; i<num.length(); i++){
             char c = num.charAt(i);
-            breakApart(c,op1,op2,result,i);
+            breakApart(c,result,i);
         }
     }
 
-    public void againClicked(){
+    public void breakApart(char c,float result,int i){
         String op1 = "";
         String op2 = "";
-        String operator = "";
-
-        float result=0;
-        for(int i=0; i<num.length(); i++){
-            char c = num.charAt(i);
-            breakApart(c,op1,op2,result,i);
-        }
-    }
-
-    public void breakApart(char c, String op1, String op2,float result,int i){
         if(c=='+'||c=='-'||c=='*'||c=='÷'){
             try{
                 op1 = num.substring(0,i);
