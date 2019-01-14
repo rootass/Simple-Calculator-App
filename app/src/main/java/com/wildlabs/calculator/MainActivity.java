@@ -18,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
     Button btn13, btn14, btn15, btn16;
     TextView mTextView;
     String num="";
+    boolean operatorClicked = false;
+    boolean mulClicked = false;
+    boolean minusClicked = false;
+    boolean divClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void callOperators(View v){
         switch (v.getTag().toString()){
-            case "+": num+="+";mTextView.setText(num);break;
-            case "-": num+="-";mTextView.setText(num);break;
-            case "*": num+="*";mTextView.setText(num);break;
-            case "÷": num+="÷";mTextView.setText(num);break;
+            case "+": if(operatorClicked){againClicked();}num+="+";operatorClicked=true;mTextView.setText(num);break;
+            case "-": if(operatorClicked){againClicked();}num+="-";operatorClicked=true;mTextView.setText(num);break;
+            case "*": if(operatorClicked){againClicked();}num+="*";operatorClicked=true;mTextView.setText(num);break;
+            case "÷": if(operatorClicked){againClicked();}num+="÷";operatorClicked=true;mTextView.setText(num);break;
         }
     }
 
@@ -78,23 +83,49 @@ public class MainActivity extends AppCompatActivity {
         String op1 = "";
         String op2 = "";
         String operator = "";
+
         float result=0;
         for(int i=0; i<num.length(); i++){
             char c = num.charAt(i);
-            if(c=='+'||c=='-'||c=='*'||c=='÷'){
+            breakApart(c,op1,op2,result,i);
+        }
+    }
+
+    public void againClicked(){
+        String op1 = "";
+        String op2 = "";
+        String operator = "";
+
+        float result=0;
+        for(int i=0; i<num.length(); i++){
+            char c = num.charAt(i);
+            breakApart(c,op1,op2,result,i);
+        }
+    }
+
+    public void breakApart(char c, String op1, String op2,float result,int i){
+//        int op1a=0,op1b=i,op2a=i+1,op2b=num.length();
+        if(c=='+'||c=='-'||c=='*'||c=='÷'){
+            try{
                 op1 = num.substring(0,i);
                 op2 = num.substring(i+1,num.length());
-                System.out.println("Op1 = "+op1);
-                System.out.println("Op2 = "+op2);
-            }
-            switch (c){
-                case '+':result=Float.valueOf(op1)+Float.valueOf(op2);break;
-                case '-':result=Float.valueOf(op1)-Float.valueOf(op2);break;
-                case '*':result=Float.valueOf(op1)*Float.valueOf(op2);break;
-                case '÷':result=Float.valueOf(op1)/Float.valueOf(op2);break;
-            }
-            mTextView.setText(String.valueOf(result));
+            } catch (Exception e){return;}
+            System.out.println("Op1 = "+op1);
+            System.out.println("Op2 = "+op2);
+            performMaths(c,op1,op2,result);
         }
+    }
+
+    public void performMaths(char c, String op1, String op2, float result){
+        switch (c){
+            case '+':result=Float.valueOf(op1)+Float.valueOf(op2);break;
+            case '-':result=Float.valueOf(op1)-Float.valueOf(op2);break;
+            case '*':result=Float.valueOf(op1)*Float.valueOf(op2);break;
+            case '÷':result=Float.valueOf(op1)/Float.valueOf(op2);break;
+        }
+        num=String.valueOf(result);
+        System.out.println(String.valueOf(result));
+        mTextView.setText(String.valueOf(result));
     }
 
 }
