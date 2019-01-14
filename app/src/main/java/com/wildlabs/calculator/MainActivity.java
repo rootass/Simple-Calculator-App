@@ -19,9 +19,6 @@ public class MainActivity extends AppCompatActivity {
     TextView mTextView;
     String num="";
     boolean operatorClicked = false;
-    boolean mulClicked = false;
-    boolean minusClicked = false;
-    boolean divClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void breakApart(char c, String op1, String op2,float result,int i){
-//        int op1a=0,op1b=i,op2a=i+1,op2b=num.length();
         if(c=='+'||c=='-'||c=='*'||c=='÷'){
             try{
                 op1 = num.substring(0,i);
